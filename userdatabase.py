@@ -34,16 +34,16 @@ def userRegister(databaseName, name, email, password):
     c.execute("use %s ;" %databaseName)
     conn.commit()
     x = c.execute("select * from users where username = '%s'" %(thwart(email)))
-      if int(x) > 0:
-	return "User already exists"
+    if int(x) > 0:
+      return "User already exists"
 
-      else:
-	c.execute("INSERT INTO user (name, email, password) values ('%s','%s','%s')" %(thwart(name),thwart(email),sha256_crypt.encrypt(str(thwart(password))))
-	conn.commit()
-	c.close()
-	conn.close()
-	gc.collect()
-	return "User Registered"
+    else:
+      c.execute("INSERT INTO user (name, email, password) values ('%s','%s','%s')" %(thwart(name),thwart(email),sha256_crypt.encrypt(str(thwart(password)))))
+      conn.commit()
+      c.close()
+      conn.close()
+      gc.collect()
+      return "User Registered"
 
   except Exception as e:
     return str(e)

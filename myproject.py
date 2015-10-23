@@ -1,5 +1,5 @@
 import MySQLdb
-from flask import Flask
+from flask import Flask, request, session
 from userdatabase import userLogin, userRegister
 application = Flask(__name__)
 
@@ -23,7 +23,7 @@ def login():
   except Exception as e:
     return (str(e))
 
-@application.route('/adminregister/', methods=['GET', 'POST'])
+@application.route('/userregister/', methods=['GET', 'POST'])
 def adminRegisteration():
   try:
     if request.method == 'POST':
