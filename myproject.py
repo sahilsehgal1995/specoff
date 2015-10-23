@@ -3,7 +3,7 @@ from flask import Flask, request, session
 from userdatabase import userLogin, userRegister
 application = Flask(__name__)
 
-@application.route("/")
+@application.route("/", methods=['GET', 'POST'])
 def hello():
     return "<br><h1 style='color:blue'>Hello There! My app is coming!</h1>"
 
