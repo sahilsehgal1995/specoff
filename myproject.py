@@ -1,7 +1,10 @@
 import MySQLdb
+from flask.ext.cors import CORS
 from flask import Flask, request, session
 from userdatabase import userLogin, userRegister
+
 application = Flask(__name__)
+CORS(application)
 
 @application.route("/", methods=['GET', 'POST'])
 def hello():
