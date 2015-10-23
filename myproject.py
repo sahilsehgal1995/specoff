@@ -1,10 +1,11 @@
 import MySQLdb
 from flask.ext.cors import CORS
-from flask import Flask, request, session
+from flask import Flask, request, session, jsonify
 from userdatabase import userLogin, userRegister
 
 application = Flask(__name__)
 CORS(application)
+application.config['SECRET_KEY'] = 'HARD TO GUESS'
 
 @application.route("/", methods=['GET', 'POST'])
 def hello():
@@ -12,14 +13,13 @@ def hello():
 
 @application.route('/login/', methods=['GET', 'POST'])
 def login():
-  error=''
   try:
     if request.method =='POST':
-      reply = userLogin("users", request.form['username'], request.form['password'])
+      reply = userLogin("users", request.args.get('email'), request.args.get('password'))
       if reply is True:
-	session['logged_in'] = True
-	session['username'] = request.form['username']
 	return "Successfull login"
+      else:
+	return "Authentication failed"
     
     return "Authentication failed"
   
@@ -30,7 +30,7 @@ def login():
 def adminRegisteration():
   try:
     if request.method == 'POST':
-      reply = userRegister('users', request.form['name'], request.form['emailid'], request.form['password'])
+      reply = userRegister('users', request.args.get('name'), request.args.get('email'), request.args.get('password'))
       return reply
     
     else:

@@ -15,13 +15,13 @@ def userLogin(databaseName, username, password):
     databaseName = databaseName.replace(" ","")
     c.execute("use %s ;" %databaseName)
     conn.commit()
-    if c.execute("select * from users where username= '%s'" %(thwart(username))):
-	  data = c.execute("select * from users where username= '%s'" %(thwart(username)))
-	  data = c.fetchone()[1]
-	  if sha256_crypt.verify(password,data):
-	    return True
-	  else:
-	    return False
+    if c.execute("select * from user where email= '%s'" %(thwart(username))):
+      data = c.execute("select * from users where username= '%s'" %(thwart(username)))
+      data = c.fetchone()[1]
+      if sha256_crypt.verify(password,data):
+	return True
+      else:
+	return False
     else:
       return False
   except Exception as e:
@@ -43,7 +43,7 @@ def userRegister(databaseName, name, email, password):
       c.close()
       conn.close()
       gc.collect()
-      return "User Registered"
+      return "Registeration done Successfully"
 
   except Exception as e:
     return str(e)
