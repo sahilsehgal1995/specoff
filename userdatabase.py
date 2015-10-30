@@ -9,15 +9,15 @@ def connection():
   c = conn.cursor()
   return c, conn
 
-def userLogin(databaseName, username, password):
+def userLogin(databaseName, email, password):
   try:
     c,conn = connection()
     databaseName = databaseName.replace(" ","")
     c.execute("use %s ;" %databaseName)
     conn.commit()
-    if c.execute("select * from user where email= '%s'" %(thwart(username))):
-      data = c.execute("select * from users where username= '%s'" %(thwart(username)))
-      data = c.fetchone()[1]
+    if c.execute("select * from user where email= '%s'" %(thwart(email))):
+      data = c.execute("select * from user where email= '%s'" %(thwart(email)))
+      data = c.fetchone()[2]
       if sha256_crypt.verify(password,data):
 	return True
       else:
@@ -33,7 +33,7 @@ def userRegister(databaseName, name, email, password):
     databaseName = databaseName.replace(" ","")
     c.execute("use %s ;" %databaseName)
     conn.commit()
-    x = c.execute("select * from users where username = '%s'" %(thwart(email)))
+    x = c.execute("select * from user where email = '%s'" %(thwart(email)))
     if int(x) > 0:
       return "User already exists"
 
