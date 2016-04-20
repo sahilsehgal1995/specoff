@@ -1,7 +1,7 @@
 import MySQLdb
 from flask.ext.cors import CORS
 from flask import Flask, request, session, jsonify
-from userdatabase import userLogin, userRegister
+from userdatabase import userLogin, userRegister, testing
 
 application = Flask(__name__)
 CORS(application)
@@ -42,6 +42,13 @@ def adminRegisteration():
 @application.route("/song")
 def song():
     return application.send_static_file('Saiyaan.mp3')
+
+@application.route("/testing/", methods=['GET', 'POST'])
+def Testing():
+  try:
+    return testing(request.args.get('case'))
+  except Exception as e:
+    return str(e)
 
 if __name__ == "__main__":
     application.run(host='0.0.0.0')
