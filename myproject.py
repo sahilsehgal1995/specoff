@@ -7,7 +7,7 @@ application = Flask(__name__)
 CORS(application)
 application.config['SECRET_KEY'] = 'HARD TO GUESS'
 
-@application.route("/")
+@application.route("/", methods=['GET', 'POST'])
 def hello():
     return "<br><h1 style='color:blue'>Hello There! My app is coming!</h1>"
 
@@ -21,7 +21,7 @@ def login():
       else:
 	return "Authentication failed"
     
-    return "Authentication failed"
+    return "Unable to process"
   
   except Exception as e:
     return (str(e))
