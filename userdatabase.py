@@ -14,15 +14,15 @@ def connection():
   c = conn.cursor()
   return c, conn
 
-def userLogin(databaseName, email, password):
+def userLogin(databaseName, username, password):
   try:
     c,conn = connection()
     databaseName = databaseName.replace(" ","")
     c.execute("use %s ;" %databaseName)
     conn.commit()
-    if c.execute("select * from user where email= '%s'" %(thwart(email))):
-      data = c.execute("select * from user where email= '%s'" %(thwart(email)))
-      data = c.fetchone()[2]
+    if c.execute("select * from user where email= '%s'" %(thwart(username))):
+      data = c.execute("select * from users where username= '%s'" %(thwart(username)))
+      data = c.fetchone()[1]
       if sha256_crypt.verify(password,data):
 	return True
       else:
@@ -141,7 +141,7 @@ def userRegister(databaseName, name, email, password):
     databaseName = databaseName.replace(" ","")
     c.execute("use %s ;" %databaseName)
     conn.commit()
-    x = c.execute("select * from user where email = '%s'" %(thwart(email)))
+    x = c.execute("select * from users where username = '%s'" %(thwart(email)))
     if int(x) > 0:
       return "User already exists"
 
@@ -155,7 +155,6 @@ def userRegister(databaseName, name, email, password):
 
   except Exception as e:
     return str(e)
-<<<<<<< HEAD
   
 if __name__ == '__main__':
   print testing('Loop')
@@ -164,5 +163,3 @@ if __name__ == '__main__':
   print testing('Brute force')
   print testing('matrix multiplication')
   print testing('matrix multiplicatiossssn')
-=======
->>>>>>> cd7f978303fb59d3fb6ede1a71b71e1b94fae55b
